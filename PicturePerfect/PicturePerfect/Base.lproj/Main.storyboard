@@ -32,7 +32,7 @@
                                 </constraints>
                             </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="fvu-Lt-pYB">
-                                <rect key="frame" x="28" y="180" width="347" height="611"/>
+                                <rect key="frame" x="28" y="174" width="347" height="617"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="4" id="b3D-xy-sCa">
                                     <size key="itemSize" width="162" height="289"/>
@@ -100,7 +100,7 @@
                                 </cells>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Popular" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bUl-ry-j2n">
-                                <rect key="frame" x="28" y="128" width="129" height="43"/>
+                                <rect key="frame" x="28" y="128" width="129" height="38"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -111,12 +111,12 @@
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bUl-ry-j2n" secondAttribute="trailing" constant="245" id="0kb-yF-4A8"/>
                             <constraint firstItem="bUl-ry-j2n" firstAttribute="leading" secondItem="fvu-Lt-pYB" secondAttribute="leading" id="NQ1-Bh-TN7"/>
-                            <constraint firstItem="fvu-Lt-pYB" firstAttribute="top" secondItem="dap-27-bI7" secondAttribute="bottom" constant="59.333333333333329" id="PTw-OV-Pj6"/>
+                            <constraint firstItem="fvu-Lt-pYB" firstAttribute="top" secondItem="dap-27-bI7" secondAttribute="bottom" constant="53.333333333333329" id="PTw-OV-Pj6"/>
                             <constraint firstItem="bUl-ry-j2n" firstAttribute="top" secondItem="dap-27-bI7" secondAttribute="bottom" constant="7.3333333333333286" id="Pxf-Zo-lg2"/>
                             <constraint firstItem="dap-27-bI7" firstAttribute="centerY" secondItem="Zd0-yF-4Ax" secondAttribute="centerY" id="WBy-yL-E7v"/>
                             <constraint firstItem="fvu-Lt-pYB" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Wat-gE-eIs"/>
                             <constraint firstItem="dap-27-bI7" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="25" id="Wma-8W-v4g"/>
-                            <constraint firstItem="fvu-Lt-pYB" firstAttribute="top" secondItem="bUl-ry-j2n" secondAttribute="bottom" constant="9" id="drb-ju-fUe"/>
+                            <constraint firstItem="fvu-Lt-pYB" firstAttribute="top" secondItem="bUl-ry-j2n" secondAttribute="bottom" constant="8" id="drb-ju-fUe"/>
                             <constraint firstItem="Zd0-yF-4Ax" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="oYF-1B-Rp0"/>
                             <constraint firstItem="dap-27-bI7" firstAttribute="top" secondItem="Zd0-yF-4Ax" secondAttribute="top" id="qej-g6-Xg6"/>
                             <constraint firstItem="fvu-Lt-pYB" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="wGQ-oW-0wI"/>
@@ -128,6 +128,8 @@
                     <tabBarItem key="tabBarItem" title="Catalog" image="magnifyingglass" catalog="system" selectedImage="magnifyingglass" id="jUl-fu-Wjp"/>
                     <connections>
                         <outlet property="MovieCollection" destination="fvu-Lt-pYB" id="dPQ-Um-mS0"/>
+                        <outlet property="catalogTab" destination="jUl-fu-Wjp" id="oVn-w0-koe"/>
+                        <outlet property="searchField" destination="Zd0-yF-4Ax" id="fIT-Hm-QfC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
