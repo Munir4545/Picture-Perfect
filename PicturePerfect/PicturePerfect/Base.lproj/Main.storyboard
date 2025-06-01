@@ -128,7 +128,7 @@
                     <tabBarItem key="tabBarItem" title="Catalog" image="magnifyingglass" catalog="system" selectedImage="magnifyingglass" id="jUl-fu-Wjp"/>
                     <connections>
                         <outlet property="MovieCollection" destination="fvu-Lt-pYB" id="dPQ-Um-mS0"/>
-                        <outlet property="catalogTab" destination="jUl-fu-Wjp" id="oVn-w0-koe"/>
+                        <outlet property="catalogLabel" destination="bUl-ry-j2n" id="fVC-na-fJk"/>
                         <outlet property="searchField" destination="Zd0-yF-4Ax" id="fIT-Hm-QfC"/>
                     </connections>
                 </viewController>

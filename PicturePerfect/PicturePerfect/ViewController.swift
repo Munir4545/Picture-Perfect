@@ -8,12 +8,13 @@
 import UIKit
 
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UITabBarControllerDelegate {
     
     @IBOutlet weak var MovieCollection: UICollectionView!
     
-    @IBOutlet weak var catalogTab: UITabBarItem!
     
+    @IBOutlet weak var catalogLabel: UILabel!
+        
     @IBOutlet weak var searchField: UITextField!
     
     var popularMovies: [[String: Any]] = []
@@ -37,8 +38,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         var movie : [String:Any] = [:]
         if searching {
+            catalogLabel.text = "Result"
             movie = searchResult[indexPath.item]
         } else {
+            catalogLabel.text = "Popular"
             movie = popularMovies[indexPath.item]
         }
         if let posterPath = movie["poster_path"] as? String {
@@ -66,6 +69,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         MovieCollection.dataSource = self
         MovieCollection.delegate = self
         searchField.delegate = self
+        self.tabBarController?.delegate = self
         fetchPopularMovies()
     }
     
@@ -75,6 +79,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if let term = textField.text, !term.isEmpty {
             fetchSearchMovies(search: term)
             searching = true
+            MovieCollection.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
         } else {
             searching = false
             MovieCollection.reloadData()
@@ -82,7 +87,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return true
     }
     
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        let isTabSelected = (viewController == self || viewController == self.navigationController)
+        if isTabSelected && searching {
+            searching = false
+            searchField.text = ""
+            searchField.resignFirstResponder()
+            MovieCollection.reloadData()
+            MovieCollection.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+        }
+    }
+    
     func fetchSearchMovies(search : String) {
+        
         guard let secret = Bundle.main.object(forInfoDictionaryKey: "SECRET") as? String else {
             print("NO KEY FOUND")
             return
@@ -110,7 +127,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         ]
         
         URLSession.shared.dataTask(with: request) { data, response, error in
-            
             guard let data = data else {
                 print("No data received")
                 return
@@ -162,7 +178,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         ]
         
         URLSession.shared.dataTask(with: request) { data, response, error in
-            
             guard let data = data else {
                 print("No data received")
                 return
