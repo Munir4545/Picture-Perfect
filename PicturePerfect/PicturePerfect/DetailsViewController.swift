@@ -21,12 +21,24 @@ class DetailsViewController: UIViewController {
     
     @IBOutlet weak var movieDesc: UILabel!
     
+    @IBOutlet weak var totalStars: UILabel!
+    
+    
+    @IBOutlet weak var star1Image: UIImageView!
+    @IBOutlet weak var star2Image: UIImageView!
+    @IBOutlet weak var star3Image: UIImageView!
+    @IBOutlet weak var star4Image: UIImageView!
+    @IBOutlet weak var star5Image: UIImageView!
+    
+    var starImageArray: [UIImageView] = []
+    
     
     @IBOutlet weak var genreStackView: UIStackView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchDetails()
+        starImageArray = [star1Image, star2Image, star3Image, star4Image, star5Image]
     }
     
     @IBAction func backTapped(_ sender: Any) {
@@ -87,6 +99,10 @@ class DetailsViewController: UIViewController {
     func updateDetails() {
         self.movieTitle.text = movieDetails["title"] as? String
         self.movieDesc.text = movieDetails["overview"] as? String
+        if let voteAverage = movieDetails["vote_average"] as? Double {
+            self.totalStars.text = "\(round(voteAverage/2 * 10) / 10)"
+            makeStars(rating: round(voteAverage/2 * 10) / 10)
+        }
         
         if let genresArray = movieDetails["genres"] as? [[String: Any]] {
             for genreDict in genresArray {
@@ -116,6 +132,17 @@ class DetailsViewController: UIViewController {
                         }
                     }
                 }.resume()
+            }
+        }
+    }
+    
+    func makeStars(rating: Double) {
+        for i in 0...starImageArray.count {
+            
+            if rating >= Double(i+1) {
+                starImageArray[i].image = UIImage(systemName: "star.fill")
+            } else if rating >=  Double(i+1) - 0.5 {
+                starImageArray[i].image = UIImage(systemName: "star.leadinghalf.filled")
             }
         }
     }

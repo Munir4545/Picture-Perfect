@@ -110,6 +110,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if let term = textField.text, !term.isEmpty {
             fetchSearchMovies(search: term)
             searching = true
+            self.searchResult = []
             MovieCollection.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
         } else {
             searching = false
