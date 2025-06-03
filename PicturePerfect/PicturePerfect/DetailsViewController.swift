@@ -32,6 +32,15 @@ class DetailsViewController: UIViewController {
     @IBAction func backTapped(_ sender: Any) {
         self.dismiss(animated: true)
     }
+    
+    @IBAction func showReviewsTapped(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let reviewsVC = storyboard.instantiateViewController(withIdentifier: "ReviewViewController") as? ReviewViewController {
+            reviewsVC.movieID = self.movieID
+            self.present(reviewsVC, animated: true) 
+        }
+    }
+    
     func fetchDetails() {
         guard let id = self.movieID else {
             print("Error: Movie ID is missing.")
