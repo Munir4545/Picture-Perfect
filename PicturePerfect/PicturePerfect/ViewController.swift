@@ -62,6 +62,37 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // 1. Figure out which movie was tapped
+//        let movie: [String: Any]
+//        if searching {
+//            movie = searchResult[indexPath.item]
+//        } else {
+//            movie = popularMovies[indexPath.item]
+//        }
+//        performSegue(withIdentifier: "showDetailsSegue", sender: movie["id"])
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetailsSegue" {
+            if let detailsVC = segue.destination as? DetailsViewController {
+                if let cell = sender as? UICollectionViewCell,
+                   let indexPath = MovieCollection.indexPath(for: cell) {
+                    
+                    let movie: [String: Any]
+                    if searching {
+                        movie = searchResult[indexPath.item]
+                    } else {
+                        movie = popularMovies[indexPath.item]
+                    }
+                    if let movieId = movie["id"] as? Int {
+                        detailsVC.movieID = movieId
+                    }
+                }
+            }
+        }
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -191,6 +222,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 }
                 
                 self.popularMovies = jsonObject["results"] as! [[String : Any]]
+                
+                DispatchQueue.main.async {
+                    self.MovieCollection.reloadData()
+                }
                 print(self.popularMovies)
             } catch {
                 print("cant parse popular movies")
