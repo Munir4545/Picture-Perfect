@@ -23,6 +23,13 @@ class DetailsViewController: UIViewController {
     
     @IBOutlet weak var totalStars: UILabel!
     
+    @IBOutlet weak var ratingsLabel: UILabel!
+    
+    @IBOutlet weak var yearLabel: UILabel!
+    
+    @IBOutlet weak var langLabel: UILabel!
+    
+    @IBOutlet weak var timeLabel: UILabel!
     
     @IBOutlet weak var star1Image: UIImageView!
     @IBOutlet weak var star2Image: UIImageView!
@@ -99,6 +106,19 @@ class DetailsViewController: UIViewController {
     func updateDetails() {
         self.movieTitle.text = movieDetails["title"] as? String
         self.movieDesc.text = movieDetails["overview"] as? String
+        
+        self.yearLabel.text = movieDetails["release_date"] as? String
+        
+        let languages = movieDetails["spoken_languages"] as? [[String: Any]]
+        
+        self.langLabel.text = languages?.first?["name"] as? String
+        
+        if let runTime = movieDetails["runtime"] as? Int {
+            self.timeLabel.text = "\(runTime) minutes"
+        }
+        if let voteCount = movieDetails["vote_count"] as? Int {
+            self.ratingsLabel.text = "\(voteCount) ratings"
+        }
         if let voteAverage = movieDetails["vote_average"] as? Double {
             self.totalStars.text = "\(round(voteAverage/2 * 10) / 10)"
             makeStars(rating: round(voteAverage/2 * 10) / 10)
