@@ -10,7 +10,6 @@ import UIKit
 
 class SettingsViewController: UIViewController, UITextFieldDelegate {
     
-    // MARK: - IBOutlets
     @IBOutlet weak var ratingSlider: UISlider!
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var yearTextField: UITextField!
@@ -19,11 +18,9 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var applyFiltersButton: UIButton!
     @IBOutlet weak var resetFiltersButton: UIButton!
     
-    // MARK: - Backup Datasets
     var originalPopularMovies: [[String: Any]] = []
     var originalSearchResult: [[String: Any]] = []
     
-    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,7 +52,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    // MARK: - Actions
     @IBAction func ratingSliderChanged(_ sender: UISlider) {
         let step: Float = 0.1
         let rounded = round(sender.value / step) * step
@@ -121,12 +117,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         yearTextField.resignFirstResponder()
     }
 
-    // MARK: - Helpers
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
     @IBAction func resetFiltersTapped(_ sender: UIButton) {
             guard let mainVC = locateMainViewController() else { return }
 
@@ -142,6 +132,11 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
             mainVC.searchResult = originalSearchResult
             mainVC.MovieCollection.reloadData()
             yearTextField.resignFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
     private func locateMainViewController() -> ViewController? {
