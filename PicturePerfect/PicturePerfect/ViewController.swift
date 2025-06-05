@@ -110,7 +110,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if let term = textField.text, !term.isEmpty {
             fetchSearchMovies(search: term)
             searching = true
-            MovieCollection.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+            self.searchResult = []
+            
         } else {
             searching = false
             MovieCollection.reloadData()
@@ -174,6 +175,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 
                 DispatchQueue.main.async {
                     self.MovieCollection.reloadData()
+                    if !self.searchResult.isEmpty {
+                        self.MovieCollection.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+                    }
+
                 }
                 print(self.searchResult)
             } catch {

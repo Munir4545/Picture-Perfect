@@ -21,12 +21,31 @@ class DetailsViewController: UIViewController {
     
     @IBOutlet weak var movieDesc: UILabel!
     
+    @IBOutlet weak var totalStars: UILabel!
+    
+    @IBOutlet weak var ratingsLabel: UILabel!
+    
+    @IBOutlet weak var yearLabel: UILabel!
+    
+    @IBOutlet weak var langLabel: UILabel!
+    
+    @IBOutlet weak var timeLabel: UILabel!
+    
+    @IBOutlet weak var star1Image: UIImageView!
+    @IBOutlet weak var star2Image: UIImageView!
+    @IBOutlet weak var star3Image: UIImageView!
+    @IBOutlet weak var star4Image: UIImageView!
+    @IBOutlet weak var star5Image: UIImageView!
+    
+    var starImageArray: [UIImageView] = []
+    
     
     @IBOutlet weak var genreStackView: UIStackView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchDetails()
+        starImageArray = [star1Image, star2Image, star3Image, star4Image, star5Image]
     }
     
     @IBAction func backTapped(_ sender: Any) {
@@ -88,6 +107,23 @@ class DetailsViewController: UIViewController {
         self.movieTitle.text = movieDetails["title"] as? String
         self.movieDesc.text = movieDetails["overview"] as? String
         
+        self.yearLabel.text = movieDetails["release_date"] as? String
+        
+        let languages = movieDetails["spoken_languages"] as? [[String: Any]]
+        
+        self.langLabel.text = languages?.first?["name"] as? String
+        
+        if let runTime = movieDetails["runtime"] as? Int {
+            self.timeLabel.text = "\(runTime) minutes"
+        }
+        if let voteCount = movieDetails["vote_count"] as? Int {
+            self.ratingsLabel.text = "\(voteCount) ratings"
+        }
+        if let voteAverage = movieDetails["vote_average"] as? Double {
+            self.totalStars.text = "\(round(voteAverage/2 * 10) / 10)"
+            makeStars(rating: round(voteAverage/2 * 10) / 10)
+        }
+        
         if let genresArray = movieDetails["genres"] as? [[String: Any]] {
             for genreDict in genresArray {
                 if let genreName = genreDict["name"] as? String {
@@ -116,6 +152,17 @@ class DetailsViewController: UIViewController {
                         }
                     }
                 }.resume()
+            }
+        }
+    }
+    
+    func makeStars(rating: Double) {
+        for i in 0...starImageArray.count {
+            
+            if rating >= Double(i+1) {
+                starImageArray[i].image = UIImage(systemName: "star.fill")
+            } else if rating >=  Double(i+1) - 0.5 {
+                starImageArray[i].image = UIImage(systemName: "star.leadinghalf.filled")
             }
         }
     }
