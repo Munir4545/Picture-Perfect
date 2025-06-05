@@ -403,7 +403,7 @@
         <!--Settings-->
         <scene sceneID="6DT-eS-vBN">
             <objects>
-                <viewController storyboardIdentifier="SettingsViewController" title="Settings" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Enq-fN-jVI" customClass="SettingsViewController" sceneMemberID="viewController">
+                <viewController id="Enq-fN-jVI" customClass="SettingsViewController" customModule="PicturePerfect" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Q9I-HL-Hhp">
                         <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -413,18 +413,12 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Clear Popular Movies"/>
-                                <connections>
-                                    <action selector="clearPopularTapped:" destination="Enq-fN-jVI" eventType="touchUpInside" id="OC1-GC-r3w"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YV4-0x-w2i">
                                 <rect key="frame" x="111" y="377" width="181" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Clear Search History"/>
-                                <connections>
-                                    <action selector="clearSearchTapped:" destination="Enq-fN-jVI" eventType="touchUpInside" id="Jz9-Qn-Y7K"/>
-                                </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Max Items" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xM4-J6-Tn6">
                                 <rect key="frame" x="153" y="468" width="97" height="34"/>
@@ -438,7 +432,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Apply Max"/>
                                 <connections>
-                                    <action selector="applyMaxTapped:" destination="Enq-fN-jVI" eventType="touchUpInside" id="X1V-P9-hrg"/>
+                                    <action selector="applyMaxTapped:" destination="Enq-fN-jVI" eventType="touchUpInside" id="hTL-bn-zJt"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -447,10 +441,10 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Settings" image="gearshape" catalog="system" selectedImage="gearshape" id="DuA-EE-vqU"/>
                     <connections>
-                        <outlet property="applyMaxButton" destination="psm-3w-gbd" id="Gts-yH-lLB"/>
-                        <outlet property="clearPopularButton" destination="7XA-H6-Tqo" id="us6-dZ-PqF"/>
-                        <outlet property="clearSearchButton" destination="YV4-0x-w2i" id="SPh-0p-GAD"/>
-                        <outlet property="maxItemsTextField" destination="xM4-J6-Tn6" id="UnB-vP-U7e"/>
+                        <outlet property="applyMaxButton" destination="psm-3w-gbd" id="HMR-j7-llV"/>
+                        <outlet property="clearPopularButton" destination="7XA-H6-Tqo" id="CUw-oN-Kh9"/>
+                        <outlet property="clearSearchButton" destination="YV4-0x-w2i" id="f0e-SK-BD8"/>
+                        <outlet property="maxItemsTextField" destination="xM4-J6-Tn6" id="555-56-FTg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lu7-vg-rXv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -471,7 +465,7 @@
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="Rz2-Mg-osA"/>
                         <segue destination="hUq-4o-dIk" kind="relationship" relationship="viewControllers" id="GVi-vr-wYj"/>
                         <segue destination="bmn-mL-OEc" kind="relationship" relationship="viewControllers" id="VxT-ah-JvM"/>
-                        <segue destination="Enq-fN-jVI" kind="relationship" relationship="viewControllers" id="Qso-SL-XsR"/>
+                        <segue destination="Enq-fN-jVI" kind="relationship" relationship="viewControllers" id="gI4-GC-tBq"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wf7-e0-Gnk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -486,7 +480,7 @@
         <image name="person" catalog="system" width="128" height="121"/>
         <image name="star" catalog="system" width="128" height="116"/>
         <systemColor name="quaternaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.17647058823529413" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.1764705882" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

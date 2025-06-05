@@ -226,13 +226,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     return
                 }
                 
-                if let results = jsonObject["results"] as? [[String: Any]] {
-                    self.popularMovies = results
-                    DispatchQueue.main.async {
-                        self.MovieCollection.reloadData()
-                    }
-                } else {
-                    print("❌ Could not parse 'results' from popular movies response")
+                self.popularMovies = jsonObject["results"] as! [[String : Any]]
+                
+                DispatchQueue.main.async {
+                    self.MovieCollection.reloadData()
                 }
                 print(self.popularMovies)
             } catch {
@@ -245,4 +242,3 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
 
 }
-

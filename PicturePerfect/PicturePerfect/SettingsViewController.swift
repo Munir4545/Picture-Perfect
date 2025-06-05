@@ -1,6 +1,7 @@
 //
 //  SettingsViewController.swift
-//  
+//  PicturePerfect
+//
 //
 //  Created by Cole Meier on 6/4/25.
 //
