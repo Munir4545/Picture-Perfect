@@ -7,12 +7,12 @@
 
 import UIKit
 
-class DetailsViewController: UIViewController {
+class DetailsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    
     
     var movieID: Int?
-    
-    @IBOutlet weak var detailsStackView: UIStackView!
-    
+        
     var movieDetails: [String: Any] = [:]
     
     @IBOutlet weak var movieImage: UIImageView!
@@ -42,15 +42,132 @@ class DetailsViewController: UIViewController {
     
     @IBOutlet weak var genreStackView: UIStackView!
     
+    
+    @IBOutlet weak var reviewCollection: UICollectionView!
+    
+    var reviews : [[String: Any]] = []
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchDetails()
+        fetchReviews()
         starImageArray = [star1Image, star2Image, star3Image, star4Image, star5Image]
+        reviewCollection.dataSource = self
+        reviewCollection.delegate = self
     }
     
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        reviews.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ReviewCell", for: indexPath) as? ReviewCell else {
+            return UICollectionViewCell()
+        }
+        
+        let review = reviews[indexPath.item]
+        
+        cell.reviewContent.text = review["content"] as? String ?? "No content available."
+
+        cell.reviewImage.image = UIImage(systemName: "person.circle.fill")
+        cell.reviewImage.tintColor = .lightGray
+        
+        if let authorDetails = review["author_details"] as? [String: Any] {
+            if let avatarPath = authorDetails["avatar_path"] as? String, !avatarPath.isEmpty {
+                cell.reviewUserName.text = review["author"] as? String ?? "Unknown username"
+                var imageURLString: String?
+                if avatarPath.lowercased().hasPrefix("/https://") {
+                    imageURLString = String(avatarPath.dropFirst())
+                    
+                } else if avatarPath.starts(with: "/") {
+                    imageURLString = "https://image.tmdb.org/t/p/w92\(avatarPath)"
+                }
+
+
+                if let urlStr = imageURLString, let fullAvatarURL = URL(string: urlStr) {
+                    print("Loading avatar from: \(fullAvatarURL.absoluteString)")
+                    
+                    URLSession.shared.dataTask(with: fullAvatarURL) { data, response, error in
+                        if let error = error {
+                            print("Avatar image load error for \(fullAvatarURL): \(error.localizedDescription)")
+                            return
+                        }
+                        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                            return
+                        }
+                        if let data = data, let image = UIImage(data: data) {
+                            DispatchQueue.main.async {
+                                if let currentCell = collectionView.cellForItem(at: indexPath) as? ReviewCell {
+                                    currentCell.reviewImage.image = image
+                                }
+                            }
+                        }
+                    }.resume()
+                }
+            }
+        }
+        return cell
+    }
     @IBAction func backTapped(_ sender: Any) {
         self.dismiss(animated: true)
     }
+    
+    func fetchReviews() {
+        guard let id = self.movieID else {
+            print("Error: Movie ID is missing.")
+            return
+        }
+        guard let secret = Bundle.main.object(forInfoDictionaryKey: "SECRET") as? String else {
+            print("NO KEY FOUND")
+            return
+        }
+        
+        guard let url = URL(string: "https://api.themoviedb.org/3/movie/\(id)/reviews") else {
+            return
+        }
+        
+        var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+        let queryItems: [URLQueryItem] = [
+          URLQueryItem(name: "language", value: "en-US"),
+          URLQueryItem(name: "page", value: "1"),
+        ]
+        components.queryItems = components.queryItems.map { $0 + queryItems } ?? queryItems
+
+        var request = URLRequest(url: components.url!)
+        request.httpMethod = "GET"
+        request.timeoutInterval = 10
+        request.allHTTPHeaderFields = [
+          "accept": "application/json",
+          "Authorization": secret
+        ]
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                print("No data received")
+                return
+            }
+            
+            do {
+                guard let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
+                    print("Could not cast JSON object as a Dictionary.")
+                    return
+                }
+                
+                self.reviews = jsonObject["results"] as! [[String : Any]]
+                print(self.reviews)
+                
+                DispatchQueue.main.async {
+                    self.reviewCollection.reloadData()
+                }
+            } catch {
+                print("cant parse reviews")
+            }
+            
+        }.resume()
+        
+    }
+    
     func fetchDetails() {
         guard let id = self.movieID else {
             print("Error: Movie ID is missing.")
