@@ -242,4 +242,3 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
 
 }
-
