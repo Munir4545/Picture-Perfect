@@ -1,0 +1,11 @@
+//
+//  Config.xcconfig
+//  PicturePerfect
+//
+//  Created by Munir Emam on 5/29/25.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+TMDB_ACCESS = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmZGQ3MGUyNjdlZTI4MzU1NzdhZjYxNTM5YmE1OGNhNiIsIm5iZiI6MTc0ODU2MzcyOS42NzI5OTk5LCJzdWIiOiI2ODM4ZjcxMWU5NWIwNjQxOTkzZDFmNjQiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.FX7H5lvMXLctKJp-yMJWyPlhpnJsYnf6JCgXvX0oKPU"
