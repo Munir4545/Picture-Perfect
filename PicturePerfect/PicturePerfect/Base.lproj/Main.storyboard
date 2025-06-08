@@ -142,11 +142,11 @@
             <objects>
                 <viewController id="Aod-qb-QhC" customClass="DetailsViewController" customModule="PicturePerfect" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Guw-yc-GhG">
-                        <rect key="frame" x="0.0" y="0.0" width="402" height="1200"/>
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="1128"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v3p-1B-Hxs">
-                                <rect key="frame" x="0.0" y="62" width="402" height="1104"/>
+                                <rect key="frame" x="0.0" y="62" width="402" height="1066"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="x2Q-cZ-Y1K">
                                         <rect key="frame" x="5" y="0.0" width="392" height="1193"/>
@@ -545,6 +545,7 @@
                                             <outlet property="ratingLabel" destination="fQ8-cN-JaD" id="mPt-E7-j4B"/>
                                             <outlet property="titleLabel" destination="gld-GT-7Ic" id="bLg-AI-qOu"/>
                                             <outlet property="yearLabel" destination="FeZ-cg-noG" id="yeg-zj-9t4"/>
+                                            <segue destination="Aod-qb-QhC" kind="show" identifier="ShowDetails" id="4tN-Ic-wbX"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -707,6 +708,9 @@
             <point key="canvasLocation" x="145.80152671755724" y="42.95774647887324"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="4tN-Ic-wbX"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="gearshape" catalog="system" width="128" height="123"/>
         <image name="list.bullet" catalog="system" width="128" height="87"/>
