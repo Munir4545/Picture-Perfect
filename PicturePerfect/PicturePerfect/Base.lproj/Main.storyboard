@@ -346,6 +346,9 @@
                                 <rect key="frame" x="351.66666666666669" y="98" width="34.333333333333314" height="34.333333333333343"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="+"/>
+                                <connections>
+                                    <action selector="addToWatchlistTapped:" destination="Aod-qb-QhC" eventType="touchUpInside" id="7Ss-We-vMU"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="w27-P8-ZIG"/>

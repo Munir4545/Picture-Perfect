@@ -168,6 +168,26 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
         
     }
     
+    @IBAction func addToWatchlistTapped(_ sender: UIButton) {
+        guard !movieDetails.isEmpty else { return }
+
+          let entry: [String: Any] = [
+            "id":            movieDetails["id"] as? Int     ?? 0,
+            "title":         movieDetails["title"] as? String ?? "",
+            "poster_path":   movieDetails["poster_path"] as? String ?? "",
+            "vote_average":  movieDetails["vote_average"] as? Double ?? 0.0,
+            "release_date":  movieDetails["release_date"] as? String ?? ""
+          ]
+
+          var list = UserDefaults.standard
+                       .array(forKey: "watchlist") as? [[String: Any]] ?? []
+
+          if !list.contains(where: { ($0["id"] as? Int) == (entry["id"] as? Int) }) {
+            list.append(entry)
+            UserDefaults.standard.set(list, forKey: "watchlist")
+          }
+    }
+
     func fetchDetails() {
         guard let id = self.movieID else {
             print("Error: Movie ID is missing.")
