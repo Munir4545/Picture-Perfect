@@ -23,13 +23,14 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var reviewTextField: UITextField!
     @IBOutlet weak var ratingSegment: UISegmentedControl!
     @IBOutlet weak var submitButton: UIButton!
+    @IBOutlet weak var movieImageView: UIImageView!
     
     var movieTitle: String?
     var mediaType: String?
     var movieID: Int?
     var currentUsername: String = "Guest"
     var reviews: [Review] = []
-    
+    var movieImage: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +40,10 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.dataSource = self
         currentUsername = UserDefaults.standard.string(forKey: "Username") ?? "Guest"
         loadReviews()
+        
+        if let image = movieImage {
+            movieImageView.image = image
+        }
     }
     @IBAction func backPressed(_ sender: Any) {
         self.dismiss(animated: true)
