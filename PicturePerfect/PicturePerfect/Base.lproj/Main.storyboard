@@ -451,13 +451,18 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="gray" title="Reviews"/>
                                         <connections>
-                                            <segue destination="rGZ-Yg-c4e" kind="show" id="KvR-9e-drt"/>
+                                            <action selector="reviewsButtonTapped:" destination="hUq-4o-dIk" eventType="touchUpInside" id="QSp-c1-SYk"/>
+                                            <segue destination="rGZ-Yg-c4e" kind="show" identifier="ShowReviews" id="zKB-E7-gww"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iGw-A6-wIL">
                                         <rect key="frame" x="0.0" y="50.333333333333371" width="362" height="34.333333333333343"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="gray" title="Settings"/>
+                                        <connections>
+                                            <action selector="settingsButtonTapped:" destination="hUq-4o-dIk" eventType="touchUpInside" id="rMW-qp-A1w"/>
+                                            <segue destination="Enq-fN-jVI" kind="show" identifier="ShowSettings" id="5rM-MV-lby"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -637,7 +642,7 @@
             <objects>
                 <viewController id="Enq-fN-jVI" customClass="SettingsViewController" customModule="PicturePerfect" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Q9I-HL-Hhp">
-                        <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="802"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Min Rating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CyI-sy-K9J">
@@ -731,6 +736,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Settings" image="gearshape" catalog="system" selectedImage="gearshape" id="DuA-EE-vqU"/>
+                    <navigationItem key="navigationItem" id="5fI-Nh-egR"/>
                     <connections>
                         <outlet property="applyFiltersButton" destination="Sk1-FA-zNM" id="iv2-zS-SbQ"/>
                         <outlet property="posterSwitch" destination="XGU-BF-eMe" id="vyK-Xz-UuQ"/>
@@ -944,7 +950,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="8i4-3w-GNl"/>
                     <connections>
-                        <outlet property="reviewTextField" destination="Z7o-W3-TMV" id="NbA-RT-x13"/>
                         <outlet property="tableView" destination="xly-yS-82Y" id="Mo0-24-O18"/>
                     </connections>
                 </viewController>
@@ -954,6 +959,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="5rM-MV-lby"/>
         <segue reference="4tN-Ic-wbX"/>
     </inferredMetricsTieBreakers>
     <resources>
