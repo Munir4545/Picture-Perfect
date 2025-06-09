@@ -101,6 +101,14 @@ class ProfileViewController: UIViewController {
         present(alert, animated: true)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showUserReviewsSegue" {
+            if let destinationVC = segue.destination as? UserReviewViewController {
+                destinationVC.username = UserDefaults.standard.string(forKey: "username") ?? "Guest"
+            }
+        }
+    }
+
     @IBAction func reviewsButtonTapped(_ sender: UIButton) {
         performSegue(withIdentifier: "ShowReviews", sender: nil)
     }
