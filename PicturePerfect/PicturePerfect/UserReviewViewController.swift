@@ -21,6 +21,23 @@ class UserReviewViewController: UIViewController, UITableViewDataSource, UITable
         
         username = UserDefaults.standard.string(forKey: "Username") ??  "Guest"
         loadAllUserReviews()
+        
+        NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(showKeyboard),
+                name: UIResponder.keyboardWillShowNotification,
+                object: nil
+            )
+            
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(hideKeyboard),
+                name: UIResponder.keyboardWillHideNotification,
+                object: nil
+            )
+            
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+            view.addGestureRecognizer(tapGesture)
 
         // Do any additional setup after loading the view.
     }
@@ -39,6 +56,27 @@ class UserReviewViewController: UIViewController, UITableViewDataSource, UITable
         }
         
         tableView.reloadData()
+    }
+    
+    @objc func showKeyboard() {
+        UIView.animate(withDuration: 0.3) {
+            self.view.transform = CGAffineTransform(translationX: 0, y: -200)
+        }
+    }
+
+    @objc func hideKeyboard() {
+        UIView.animate(withDuration: 0.3) {
+            self.view.transform = .identity
+        }
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
+    func textField(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
 
@@ -78,6 +116,10 @@ class UserReviewViewController: UIViewController, UITableViewDataSource, UITable
                 }
             }
         }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
 }
