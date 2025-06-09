@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="EJK-gs-Tzi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="EJK-gs-Tzi">
     <device id="retina6_3" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" placeholder="Search for Films" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zd0-yF-4Ax">
-                                <rect key="frame" x="51" y="149" width="335" height="33.666666666666657"/>
+                                <rect key="frame" x="51" y="87" width="335" height="33.666666666666657"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33.666666666666657" id="107-Ao-cQh"/>
                                 </constraints>
@@ -26,13 +26,13 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="magnifyingglass" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="dap-27-bI7">
-                                <rect key="frame" x="16" y="150" width="35" height="32"/>
+                                <rect key="frame" x="16" y="88" width="35" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="35" id="6W6-Em-byk"/>
                                 </constraints>
                             </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="fvu-Lt-pYB">
-                                <rect key="frame" x="28" y="236" width="346" height="521"/>
+                                <rect key="frame" x="28" y="174" width="346" height="617"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="4" id="b3D-xy-sCa">
                                     <size key="itemSize" width="162" height="289"/>
@@ -101,11 +101,22 @@
                                 </cells>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Popular" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bUl-ry-j2n">
-                                <rect key="frame" x="28" y="190" width="129" height="38"/>
+                                <rect key="frame" x="28" y="128" width="129" height="38"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="SV8-sS-1cu">
+                                <rect key="frame" x="139" y="128" width="125" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Movies"/>
+                                    <segment title="Shows"/>
+                                </segments>
+                                <connections>
+                                    <action selector="switchTypeChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="A1A-gp-CGh"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -131,6 +142,7 @@
                         <outlet property="MovieCollection" destination="fvu-Lt-pYB" id="dPQ-Um-mS0"/>
                         <outlet property="catalogLabel" destination="bUl-ry-j2n" id="fVC-na-fJk"/>
                         <outlet property="searchField" destination="Zd0-yF-4Ax" id="fIT-Hm-QfC"/>
+                        <outlet property="switchType" destination="SV8-sS-1cu" id="bdb-yb-m9w"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -335,7 +347,7 @@
                                 </constraints>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RmU-ab-lzz">
-                                <rect key="frame" x="15.999999999999996" y="98" width="61.666666666666657" height="34.333333333333343"/>
+                                <rect key="frame" x="15.999999999999996" y="36" width="61.666666666666657" height="34.333333333333343"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Back"/>
                                 <connections>
@@ -343,7 +355,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8gZ-OK-aHT">
-                                <rect key="frame" x="351.66666666666669" y="98" width="34.333333333333314" height="34.333333333333343"/>
+                                <rect key="frame" x="351.66666666666669" y="36" width="34.333333333333314" height="34.333333333333343"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="+"/>
                             </button>
