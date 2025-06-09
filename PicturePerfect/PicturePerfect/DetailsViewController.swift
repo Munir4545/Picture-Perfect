@@ -12,7 +12,7 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
     
     
     var movieID: Int?
-        
+    
     var movieDetails: [String: Any] = [:]
     
     @IBOutlet weak var movieImage: UIImageView!
@@ -37,6 +37,7 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
     @IBOutlet weak var star4Image: UIImageView!
     @IBOutlet weak var star5Image: UIImageView!
     
+    
     var starImageArray: [UIImageView] = []
     
     
@@ -44,6 +45,7 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
     
     
     @IBOutlet weak var reviewCollection: UICollectionView!
+    @IBOutlet weak var favoriteButton: UIButton!
     
     var reviews : [[String: Any]] = []
     
@@ -55,6 +57,7 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
         starImageArray = [star1Image, star2Image, star3Image, star4Image, star5Image]
         reviewCollection.dataSource = self
         reviewCollection.delegate = self
+        updateFavoriteButton()
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -69,7 +72,7 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
         let review = reviews[indexPath.item]
         
         cell.reviewContent.text = review["content"] as? String ?? "No content available."
-
+        
         cell.reviewImage.image = UIImage(systemName: "person.circle.fill")
         cell.reviewImage.tintColor = .lightGray
         
@@ -83,8 +86,8 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
                 } else if avatarPath.starts(with: "/") {
                     imageURLString = "https://image.tmdb.org/t/p/w92\(avatarPath)"
                 }
-
-
+                
+                
                 if let urlStr = imageURLString, let fullAvatarURL = URL(string: urlStr) {
                     print("Loading avatar from: \(fullAvatarURL.absoluteString)")
                     
@@ -113,6 +116,40 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
         self.dismiss(animated: true)
     }
     
+    @IBAction func favoriteTapped(_ sender: UIButton) {
+        if let title = movieDetails["title"] as? String {
+            UserDefaults.standard.set(title, forKey: "favoriteMovie")
+        }
+        
+        guard let posterPath = movieDetails["poster_path"] as? String,
+              let url = URL(string: "https://image.tmdb.org/t/p/w500\(posterPath)")
+        else { return }
+        
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            guard let data = data,
+                  let image = UIImage(data: data),
+                  error == nil
+            else {
+                print("Failed to download poster:", error ?? "no data")
+                return
+            }
+            
+            UserDefaults.standard.set(data, forKey: "favoriteMoviePoster")
+            DispatchQueue.main.async {
+                self.updateFavoriteButton()
+            }
+        }.resume()
+    }
+    
+    private func updateFavoriteButton() {
+        let current = UserDefaults.standard.string(forKey: "favoriteMovie")
+        if current == (movieDetails["title"] as? String) {
+            favoriteButton.setTitle("✓ Favorited", for: .normal)
+        } else {
+            favoriteButton.setTitle("♡ Favorite", for: .normal)
+        }
+    }
+    
     func fetchReviews() {
         guard let id = self.movieID else {
             print("Error: Movie ID is missing.")
@@ -129,17 +166,17 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
         
         var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
         let queryItems: [URLQueryItem] = [
-          URLQueryItem(name: "language", value: "en-US"),
-          URLQueryItem(name: "page", value: "1"),
+            URLQueryItem(name: "language", value: "en-US"),
+            URLQueryItem(name: "page", value: "1"),
         ]
         components.queryItems = components.queryItems.map { $0 + queryItems } ?? queryItems
-
+        
         var request = URLRequest(url: components.url!)
         request.httpMethod = "GET"
         request.timeoutInterval = 10
         request.allHTTPHeaderFields = [
-          "accept": "application/json",
-          "Authorization": secret
+            "accept": "application/json",
+            "Authorization": secret
         ]
         
         URLSession.shared.dataTask(with: request) { data, response, error in
@@ -170,24 +207,24 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
     
     @IBAction func addToWatchlistTapped(_ sender: UIButton) {
         guard !movieDetails.isEmpty else { return }
-
-          let entry: [String: Any] = [
+        
+        let entry: [String: Any] = [
             "id":            movieDetails["id"] as? Int     ?? 0,
             "title":         movieDetails["title"] as? String ?? "",
             "poster_path":   movieDetails["poster_path"] as? String ?? "",
             "vote_average":  movieDetails["vote_average"] as? Double ?? 0.0,
             "release_date":  movieDetails["release_date"] as? String ?? ""
-          ]
-
-          var list = UserDefaults.standard
-                       .array(forKey: "watchlist") as? [[String: Any]] ?? []
-
-          if !list.contains(where: { ($0["id"] as? Int) == (entry["id"] as? Int) }) {
+        ]
+        
+        var list = UserDefaults.standard
+            .array(forKey: "watchlist") as? [[String: Any]] ?? []
+        
+        if !list.contains(where: { ($0["id"] as? Int) == (entry["id"] as? Int) }) {
             list.append(entry)
             UserDefaults.standard.set(list, forKey: "watchlist")
-          }
+        }
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showMovieReviewsSegue" {
             if let destinationVC = segue.destination as? ReviewViewController {
@@ -195,17 +232,17 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
             }
         }
     }
-
+    
     @IBAction func showReviewsTapped(_ sender: UIButton) {
         performSegue(withIdentifier: "showMovieReviewsSegue", sender: self)
     }
-
+    
     func fetchDetails() {
         guard let id = self.movieID else {
             print("Error: Movie ID is missing.")
             return
         }
-
+        
         guard let secret = Bundle.main.object(forInfoDictionaryKey: "SECRET") as? String else {
             print("NO KEY FOUND")
             return
@@ -215,7 +252,7 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
         }
         var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
         let queryItems: [URLQueryItem] = [
-          URLQueryItem(name: "language", value: "en-US"),
+            URLQueryItem(name: "language", value: "en-US"),
         ]
         components.queryItems = components.queryItems.map { $0 + queryItems } ?? queryItems
         
@@ -223,8 +260,8 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
         request.httpMethod = "GET"
         request.timeoutInterval = 10
         request.allHTTPHeaderFields = [
-          "accept": "application/json",
-          "Authorization": secret
+            "accept": "application/json",
+            "Authorization": secret
         ]
         
         URLSession.shared.dataTask(with: request) { data, response, error in
@@ -303,15 +340,14 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
                 }.resume()
             }
         }
-    }
-    
-    func makeStars(rating: Double) {
-        for i in 0...starImageArray.count {
-            
-            if rating >= Double(i+1) {
-                starImageArray[i].image = UIImage(systemName: "star.fill")
-            } else if rating >=  Double(i+1) - 0.5 {
-                starImageArray[i].image = UIImage(systemName: "star.leadinghalf.filled")
+        func makeStars(rating: Double) {
+            for i in 0...starImageArray.count {
+                
+                if rating >= Double(i+1) {
+                    starImageArray[i].image = UIImage(systemName: "star.fill")
+                } else if rating >=  Double(i+1) - 0.5 {
+                    starImageArray[i].image = UIImage(systemName: "star.leadinghalf.filled")
+                }
             }
         }
     }

@@ -25,6 +25,11 @@ class ProfileViewController: UIViewController {
         loadUserInfo()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+      super.viewWillAppear(animated)
+      loadUserInfo()
+    }
+    
     private func setupProfileImageView() {
         profileImageView.isUserInteractionEnabled = true
         profileImageView.layer.cornerRadius = profileImageView.bounds.width / 2
@@ -46,12 +51,20 @@ class ProfileViewController: UIViewController {
     }
     
     private func loadUserInfo() {
-        usernameLabel.text = UserDefaults.standard.string(forKey: "username") ?? "Username"
-        favoriteMovieLabel.text = UserDefaults.standard.string(forKey: "favoriteMovie") ?? "Favorite Movie"
+        usernameLabel.text = UserDefaults.standard.string(forKey: "username")
+                             ?? "Username"
         
-        if let posterData = UserDefaults.standard.data(forKey: "favoriteMoviePoster"),
-           let poster = UIImage(data: posterData) {
-            favoriteMovieImageView.image = poster
+        let favTitle = UserDefaults.standard.string(forKey: "favoriteMovie")
+                       ?? "Favorite Movie"
+        favoriteMovieLabel.text = favTitle
+
+        if let data = UserDefaults.standard.data(forKey: "favoriteMoviePoster"),
+           let img  = UIImage(data: data) {
+            favoriteMovieImageView.contentMode = .scaleAspectFit
+            favoriteMovieImageView.image = img
+        } else {
+            favoriteMovieImageView.contentMode = .center
+            favoriteMovieImageView.image = UIImage(systemName: "film")
         }
     }
     
