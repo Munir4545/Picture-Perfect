@@ -12,7 +12,7 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
     
     
     var movieID: Int?
-    
+    var mediaType: String?
     var movieDetails: [String: Any] = [:]
     
     @IBOutlet weak var movieImage: UIImageView!
@@ -151,7 +151,7 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     func fetchReviews() {
-        guard let id = self.movieID else {
+        guard let id = self.movieID, let type = self.mediaType else {
             print("Error: Movie ID is missing.")
             return
         }
@@ -160,7 +160,7 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
             return
         }
         
-        guard let url = URL(string: "https://api.themoviedb.org/3/movie/\(id)/reviews") else {
+        guard let url = URL(string: "https://api.themoviedb.org/3/\(type)/\(id)/reviews") else {
             return
         }
         
@@ -238,7 +238,7 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     func fetchDetails() {
-        guard let id = self.movieID else {
+        guard let id = self.movieID, let type = self.mediaType else {
             print("Error: Movie ID is missing.")
             return
         }
@@ -247,7 +247,7 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
             print("NO KEY FOUND")
             return
         }
-        guard let url = URL(string: "https://api.themoviedb.org/3/movie/\(id)") else {
+        guard let url = URL(string: "https://api.themoviedb.org/3/\(type)/\(id)") else {
             return
         }
         var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
@@ -290,10 +290,10 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     func updateDetails() {
-        self.movieTitle.text = movieDetails["title"] as? String
+        self.movieTitle.text = (movieDetails["title"] as? String) ?? (movieDetails["name"] as? String)
         self.movieDesc.text = movieDetails["overview"] as? String
         
-        self.yearLabel.text = movieDetails["release_date"] as? String
+        let dateString = (movieDetails["release_date"] as? String) ?? (movieDetails["first_air_date"] as? String) ?? ""
         
         let languages = movieDetails["spoken_languages"] as? [[String: Any]]
         
@@ -301,6 +301,8 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
         
         if let runTime = movieDetails["runtime"] as? Int {
             self.timeLabel.text = "\(runTime) minutes"
+        } else if let runTime = movieDetails["number_of_seasons"] as? Int {
+            self.timeLabel.text = "\(runTime) Seasons"
         }
         if let voteCount = movieDetails["vote_count"] as? Int {
             self.ratingsLabel.text = "\(voteCount) ratings"
