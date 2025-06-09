@@ -42,9 +42,11 @@
             }
             var movie : [String:Any] = [:]
             if searching {
+                self.switchType.isHidden = true
                 catalogLabel.text = "Result"
                 movie = searchResult[indexPath.item]
             } else {
+                self.switchType.isHidden = false
                 catalogLabel.text = "Popular"
                 if switchType.selectedSegmentIndex == 0 {
                     movie = popularMovies[indexPath.item]
@@ -162,7 +164,7 @@
                 print("NO KEY FOUND")
                 return
             }
-            guard let url = URL(string: "https://api.themoviedb.org/3/search/movie") else {
+            guard let url = URL(string: "https://api.themoviedb.org/3/search/multi") else {
                 return
             }
             
