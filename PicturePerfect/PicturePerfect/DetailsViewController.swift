@@ -142,8 +142,14 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     private func updateFavoriteButton() {
-        let current = UserDefaults.standard.string(forKey: "favoriteMovie")
-        if current == (movieDetails["title"] as? String) {
+        guard let currentFav = UserDefaults.standard.string(forKey: "favoriteMovie"),
+              let thisTitle = movieDetails["title"] as? String
+        else {
+            favoriteButton.setTitle("♡ Favorite", for: .normal)
+            return
+        }
+
+        if currentFav == thisTitle {
             favoriteButton.setTitle("✓ Favorited", for: .normal)
         } else {
             favoriteButton.setTitle("♡ Favorite", for: .normal)
@@ -281,6 +287,7 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
                 
                 DispatchQueue.main.async {
                     self.updateDetails()
+                    self.updateFavoriteButton()
                 }
             } catch {
                 print("cant parse details")
@@ -352,5 +359,9 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
                 }
             }
         }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateFavoriteButton()
     }
 }
