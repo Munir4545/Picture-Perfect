@@ -458,7 +458,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="3Da-Xy-Egh">
-                                <rect key="frame" x="20" y="602.66666666666663" width="362" height="84.666666666666629"/>
+                                <rect key="frame" x="20" y="602.66666666666663" width="362" height="34.333333333333371"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wXf-hq-Mki">
                                         <rect key="frame" x="0.0" y="0.0" width="362" height="34.333333333333336"/>
@@ -467,15 +467,6 @@
                                         <connections>
                                             <action selector="reviewsButtonTapped:" destination="hUq-4o-dIk" eventType="touchUpInside" id="QSp-c1-SYk"/>
                                             <segue destination="rGZ-Yg-c4e" kind="show" identifier="ShowReviews" id="zKB-E7-gww"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iGw-A6-wIL">
-                                        <rect key="frame" x="0.0" y="50.333333333333371" width="362" height="34.333333333333343"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="gray" title="Settings"/>
-                                        <connections>
-                                            <action selector="settingsButtonTapped:" destination="hUq-4o-dIk" eventType="touchUpInside" id="rMW-qp-A1w"/>
-                                            <segue destination="Enq-fN-jVI" kind="show" identifier="ShowSettings" id="5rM-MV-lby"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -524,7 +515,6 @@
                         <outlet property="favoriteMovieLabel" destination="e6g-0t-Pbd" id="lQ9-5B-wkk"/>
                         <outlet property="profileImageView" destination="4y0-1S-WWH" id="ehU-bW-0aa"/>
                         <outlet property="reviewsButton" destination="wXf-hq-Mki" id="49Y-1m-qyx"/>
-                        <outlet property="settingsButton" destination="iGw-A6-wIL" id="LSi-59-49W"/>
                         <outlet property="usernameLabel" destination="aZN-EY-b9i" id="qZI-BX-Pqm"/>
                     </connections>
                 </viewController>
@@ -668,7 +658,7 @@
             <objects>
                 <viewController id="Enq-fN-jVI" customClass="SettingsViewController" customModule="PicturePerfect" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Q9I-HL-Hhp">
-                        <rect key="frame" x="0.0" y="0.0" width="402" height="864"/>
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Min Rating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CyI-sy-K9J">
@@ -1096,7 +1086,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="5rM-MV-lby"/>
         <segue reference="jfz-ic-Dn2"/>
     </inferredMetricsTieBreakers>
     <resources>

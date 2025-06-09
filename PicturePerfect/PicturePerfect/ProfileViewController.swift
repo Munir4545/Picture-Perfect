@@ -14,7 +14,6 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var favoriteMovieImageView: UIImageView!
     @IBOutlet weak var favoriteMovieLabel: UILabel!
     @IBOutlet weak var reviewsButton: UIButton!
-    @IBOutlet weak var settingsButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,10 +124,7 @@ class ProfileViewController: UIViewController {
     @IBAction func reviewsButtonTapped(_ sender: UIButton) {
         performSegue(withIdentifier: "ShowReviews", sender: nil)
     }
-    
-    @IBAction func settingsButtonTapped(_ sender: UIButton) {
-        performSegue(withIdentifier: "ShowSettings", sender: nil)
-    }
+
 }
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
