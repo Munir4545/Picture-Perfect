@@ -27,15 +27,23 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadReviews()
+        
         
         tableView.delegate = self
         tableView.dataSource = self
+        currentUsername = UserDefaults.standard.string(forKey: "Username") ?? "Guest"
+        loadReviews()
+    }
+    @IBAction func backPressed(_ sender: Any) {
+        self.dismiss(animated: true)
     }
     
     //load reviews for current movie from UserDefaults
     //stored based off a key using the movieID --> reviews_1234
     func loadReviews() {
+        guard let id = self.movieID else {
+            return
+        }
         let key = "reviews_\(movieID!)"
         if let data = UserDefaults.standard.data(forKey: key),
            let decoded = try? JSONDecoder().decode([Review].self, from: data) {
@@ -46,6 +54,9 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
     //saves list of current reviews for movie in UserDefaults
     //Uses a key based on the movie's ID to ensure uniqueness
     func saveReviews() {
+        guard let id = self.movieID else {
+            return
+        }
         let key = "reviews_\(movieID!)"
         if let encoded = try? JSONEncoder().encode(reviews) {
             UserDefaults.standard.set(encoded, forKey: key)
