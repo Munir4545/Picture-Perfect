@@ -7,12 +7,38 @@
 
 import UIKit
 
-class UserReviewViewController: UIViewController {
+class UserReviewViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
 
+    @IBOutlet weak var tableView: UITableView!
+    
+    var userReviews: [Review] = []
+    var username: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        username = UserDefaults.standard.string(forKey: "Username") ??  "Guest"
+        loadAllUserReviews()
 
         // Do any additional setup after loading the view.
+    }
+    
+    func loadAllUserReviews() {
+        userReviews = []
+        let allKeys = UserDefaults.standard.dictionaryRepresentation().keys
+        
+        for key in allKeys {
+            if key.hasPrefix("reviews_"), let data = UserDefaults.standard.data(forKey: key) {
+                if let decoded = try? JSONDecoder().decode([Review].self, from: data) {
+                    let matching = decoded.filter { $0.username == username }
+                    userReviews.append(contentsOf: matching)
+                }
+            }
+        }
+        
+        tableView.reloadData()
     }
     
 
@@ -25,5 +51,17 @@ class UserReviewViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return userReviews.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let review = userReviews[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UserReviewCell", for: indexPath)
+        cell.textLabel?.text = "⭐️ \(review.rating)"
+        cell.detailTextLabel?.text = review.comment
+        return cell
+    }
 
 }

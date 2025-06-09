@@ -188,14 +188,16 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
           }
     }
 
-    @IBAction func showReviewsTapped(_ sender: UIButton) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let reviewsVC = storyboard.instantiateViewController(withIdentifier: "ReviewViewController") as? ReviewViewController else {
-            return
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showMovieReviewsSegue" {
+            if let destinationVC = segue.destination as? ReviewViewController {
+                destinationVC.movieID = self.movieID
+            }
         }
-        
-        reviewsVC.movieID = self.movieID
-        self.present(reviewsVC, animated: true, completion: nil)
+    }
+
+    @IBAction func showReviewsTapped(_ sender: UIButton) {
+        performSegue(withIdentifier: "showMovieReviewsSegue", sender: self)
     }
 
     func fetchDetails() {
