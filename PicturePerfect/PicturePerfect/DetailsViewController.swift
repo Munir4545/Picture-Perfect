@@ -215,11 +215,14 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
         guard !movieDetails.isEmpty else { return }
         
         let entry: [String: Any] = [
-            "id":            movieDetails["id"] as? Int     ?? 0,
-            "title":         movieDetails["title"] as? String ?? "",
-            "poster_path":   movieDetails["poster_path"] as? String ?? "",
-            "vote_average":  movieDetails["vote_average"] as? Double ?? 0.0,
-            "release_date":  movieDetails["release_date"] as? String ?? ""
+            "id": movieDetails["id"] as? Int ?? 0,
+            "title": movieDetails["title"] as? String ?? movieDetails["name"] as? String ?? "Untitled",
+            "name": movieDetails["name"] as? String ?? movieDetails["title"] as? String ?? "Untitled",
+            "poster_path": movieDetails["poster_path"] as? String ?? "",
+            "vote_average": movieDetails["vote_average"] as? Double ?? 0.0,
+            "release_date": movieDetails["release_date"] as? String ?? movieDetails["first_air_date"] as? String ?? "",
+            "first_air_date": movieDetails["first_air_date"] as? String ?? movieDetails["release_date"] as? String ?? "",
+            "media_type": mediaType ?? "movie"
         ]
         
         var list = UserDefaults.standard

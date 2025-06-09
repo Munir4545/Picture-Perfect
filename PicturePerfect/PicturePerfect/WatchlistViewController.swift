@@ -12,6 +12,8 @@ class WatchlistViewController: UIViewController, UICollectionViewDataSource, UIC
     @IBOutlet weak var watchlistCollection: UICollectionView!
     
     private var savedMovies: [[String: Any]] = []
+    private var savedTVShows: [[String: Any]] = []
+    private var showingTV: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,14 +28,17 @@ class WatchlistViewController: UIViewController, UICollectionViewDataSource, UIC
     }
     
     private func loadWatchlist() {
-        savedMovies = UserDefaults.standard
-            .array(forKey: "watchlist") as? [[String: Any]] ?? []
+        let list = UserDefaults.standard.array(forKey: "watchlist") as? [[String: Any]] ?? []
+
+        savedMovies = list.filter { ($0["media_type"] as? String) == "movie" }
+        savedTVShows = list.filter { ($0["media_type"] as? String) == "tv" }
+        
         watchlistCollection.reloadData()
     }
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return savedMovies.count
+        return showingTV ? savedTVShows.count : savedMovies.count
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -63,9 +68,10 @@ class WatchlistViewController: UIViewController, UICollectionViewDataSource, UIC
                 return
             }
             
-            let movie = savedMovies[idx]
-            detailsVC.movieID      = movie["id"] as? Int
+            let movie = showingTV ? savedTVShows[idx] : savedMovies[idx]
+            detailsVC.movieID = movie["id"] as? Int
             detailsVC.movieDetails = movie
+            detailsVC.mediaType = movie["media_type"] as? String ?? "movie"
         }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -78,9 +84,9 @@ class WatchlistViewController: UIViewController, UICollectionViewDataSource, UIC
             return UICollectionViewCell()
         }
         
-        let movie = savedMovies[indexPath.item]
+        let movie = showingTV ? savedTVShows[indexPath.item] : savedMovies[indexPath.item]
         
-        cell.titleLabel.text = movie["title"] as? String
+        cell.titleLabel.text = (movie["title"] as? String) ?? (movie["name"] as? String) ?? "Untitled"
         
         if let rating = movie["vote_average"] as? Double {
             cell.ratingLabel.text = String(format: "%.1f", rating)
@@ -88,7 +94,8 @@ class WatchlistViewController: UIViewController, UICollectionViewDataSource, UIC
             cell.ratingLabel.text = "--"
         }
         
-        if let release = movie["release_date"] as? String {
+        let releaseDate = (movie["release_date"] as? String) ?? (movie["first_air_date"] as? String)
+        if let release = releaseDate {
             cell.yearLabel.text = String(release.prefix(4))
         } else {
             cell.yearLabel.text = "--"
@@ -109,5 +116,10 @@ class WatchlistViewController: UIViewController, UICollectionViewDataSource, UIC
         }
         
         return cell
+    }
+    
+    @IBAction func typeSegmentChanged(_ sender: UISegmentedControl) {
+        showingTV = (sender.selectedSegmentIndex == 1)
+        watchlistCollection.reloadData()
     }
 }
