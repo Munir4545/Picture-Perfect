@@ -72,6 +72,7 @@ class UserReviewViewController: UIViewController, UITableViewDataSource, UITable
                 if let cell = sender as? UITableViewCell,
                    let indexPath = tableView.indexPath(for: cell) {
                     let selectedReview = userReviews[indexPath.row]
+
                     detailsVC.movieID = selectedReview.movieID
                     detailsVC.mediaType = selectedReview.mediaType
                 }

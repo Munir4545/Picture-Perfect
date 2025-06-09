@@ -37,7 +37,6 @@
         
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCell", for: indexPath) as? MovieCell else {
-                // Return a default cell if the cast fails
                 return UICollectionViewCell()
             }
             var movie : [String:Any] = [:]
@@ -101,16 +100,22 @@
                        let indexPath = MovieCollection.indexPath(for: cell) {
                         
                         let movie: [String: Any]
+                        let mediaType: String?
                         if searching {
                             movie = searchResult[indexPath.item]
+                            mediaType = movie["media_type"] as? String
                         } else if switchType.selectedSegmentIndex == 0 {
                             movie = popularMovies[indexPath.item]
+                            mediaType = "movie"
                         } else {
                             movie = popularTVShows[indexPath.item]
+                            mediaType = "tv"
                         }
                         if let movieId = movie["id"] as? Int {
                             detailsVC.movieID = movieId
-                            if switchType.selectedSegmentIndex == 0 {
+                            if searching {
+                                detailsVC.mediaType = mediaType
+                            } else if switchType.selectedSegmentIndex == 0 {
                                 detailsVC.mediaType = "movie"
                             } else {
                                 detailsVC.mediaType = "tv"
