@@ -107,9 +107,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="SV8-sS-1cu">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="SV8-sS-1cu">
                                 <rect key="frame" x="139" y="128" width="125" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="Movies"/>
                                     <segment title="Shows"/>
@@ -123,12 +122,15 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bUl-ry-j2n" secondAttribute="trailing" constant="245" id="0kb-yF-4A8"/>
+                            <constraint firstItem="fvu-Lt-pYB" firstAttribute="top" secondItem="SV8-sS-1cu" secondAttribute="bottom" constant="15" id="IdZ-BF-GUS"/>
                             <constraint firstItem="bUl-ry-j2n" firstAttribute="leading" secondItem="fvu-Lt-pYB" secondAttribute="leading" id="NQ1-Bh-TN7"/>
+                            <constraint firstItem="SV8-sS-1cu" firstAttribute="top" secondItem="Zd0-yF-4Ax" secondAttribute="bottom" constant="7.3300000000000001" id="OQk-Ed-7VN"/>
                             <constraint firstItem="fvu-Lt-pYB" firstAttribute="top" secondItem="dap-27-bI7" secondAttribute="bottom" constant="53.333333333333329" id="PTw-OV-Pj6"/>
                             <constraint firstItem="bUl-ry-j2n" firstAttribute="top" secondItem="dap-27-bI7" secondAttribute="bottom" constant="7.3333333333333286" id="Pxf-Zo-lg2"/>
                             <constraint firstItem="dap-27-bI7" firstAttribute="centerY" secondItem="Zd0-yF-4Ax" secondAttribute="centerY" id="WBy-yL-E7v"/>
                             <constraint firstItem="fvu-Lt-pYB" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Wat-gE-eIs"/>
                             <constraint firstItem="dap-27-bI7" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="25" id="Wma-8W-v4g"/>
+                            <constraint firstItem="SV8-sS-1cu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="139" id="bE4-5k-Epn"/>
                             <constraint firstItem="fvu-Lt-pYB" firstAttribute="top" secondItem="bUl-ry-j2n" secondAttribute="bottom" constant="8" id="drb-ju-fUe"/>
                             <constraint firstItem="Zd0-yF-4Ax" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="oYF-1B-Rp0"/>
                             <constraint firstItem="dap-27-bI7" firstAttribute="top" secondItem="Zd0-yF-4Ax" secondAttribute="top" id="qej-g6-Xg6"/>
@@ -548,13 +550,24 @@
                                         </constraints>
                                     </imageView>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" borderStyle="roundedRect" placeholder="Search for Films" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dxG-AV-HCx">
-                                        <rect key="frame" x="35" y="0.0" width="351" height="33.666666666666664"/>
+                                        <rect key="frame" x="35" y="0.0" width="226" height="33.666666666666664"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="33.666666666666657" id="Vye-ko-QjM"/>
                                         </constraints>
                                         <attributedString key="attributedText"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="EhJ-nI-UU4">
+                                        <rect key="frame" x="261" y="0.0" width="125" height="34.666666666666664"/>
+                                        <segments>
+                                            <segment title="Movies"/>
+                                            <segment title="Shows"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="switchTypeChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="Yk5-0R-Q8r"/>
+                                            <action selector="typeSegmentChanged:" destination="bmn-mL-OEc" eventType="valueChanged" id="rZJ-j5-r9k"/>
+                                        </connections>
+                                    </segmentedControl>
                                 </subviews>
                             </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="EQD-0n-dKm">
@@ -642,6 +655,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Watchlist" image="list.bullet" catalog="system" selectedImage="list.bullet" id="pQe-zL-WaM"/>
                     <connections>
+                        <outlet property="searchField" destination="dxG-AV-HCx" id="eIH-0k-FZj"/>
                         <outlet property="watchlistCollection" destination="EQD-0n-dKm" id="3gi-GG-Br7"/>
                     </connections>
                 </viewController>
@@ -1083,7 +1097,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="5rM-MV-lby"/>
-        <segue reference="pBt-fl-GwX"/>
+        <segue reference="jfz-ic-Dn2"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="gearshape" catalog="system" width="128" height="123"/>
@@ -1095,7 +1109,7 @@
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="quaternaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.17647058823529413" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.1764705882" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
