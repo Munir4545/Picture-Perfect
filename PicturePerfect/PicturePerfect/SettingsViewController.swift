@@ -35,6 +35,9 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         
         applyFiltersButton.layer.cornerRadius = 8
         resetFiltersButton.layer.cornerRadius = 8
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -50,6 +53,10 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         if originalSearchResult.isEmpty {
             originalSearchResult = mainVC.searchResult
         }
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
         
     @IBAction func ratingSliderChanged(_ sender: UISlider) {
