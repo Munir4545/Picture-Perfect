@@ -59,9 +59,12 @@ class UserReviewViewController: UIViewController, UITableViewDataSource, UITable
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let review = userReviews[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserReviewCell", for: indexPath)
-        cell.textLabel?.text = "⭐️ \(review.rating)"
-        cell.detailTextLabel?.text = review.comment
+        let stars = String(repeating: "⭐️", count: review.rating)
+        cell.textLabel?.text = review.movieTitle
+        cell.detailTextLabel?.text = "\(stars) | \(review.comment)"
         return cell
     }
+    
+    
 
 }

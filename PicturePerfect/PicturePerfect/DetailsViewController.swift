@@ -240,7 +240,14 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     @IBAction func showReviewsTapped(_ sender: UIButton) {
-        performSegue(withIdentifier: "showMovieReviewsSegue", sender: self)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let reviewsVC = storyboard.instantiateViewController(withIdentifier: "ReviewViewController") as? ReviewViewController {
+            reviewsVC.movieID = self.movieID
+
+            reviewsVC.movieTitle = self.movieDetails["title"] as? String
+            reviewsVC.modalPresentationStyle = .fullScreen
+            self.present(reviewsVC, animated: true)
+        }
     }
     
     func fetchDetails() {

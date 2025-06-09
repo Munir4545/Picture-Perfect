@@ -11,6 +11,9 @@ struct Review: Codable {
     let username: String
     let rating: Int
     let comment: String
+    
+    let movieID: Int
+    let movieTitle: String
 }
 
 class ReviewViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -20,6 +23,7 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var ratingSegment: UISegmentedControl!
     @IBOutlet weak var submitButton: UIButton!
     
+    var movieTitle: String?
     var movieID: Int?
     var currentUsername: String = "Guest"
     var reviews: [Review] = []
@@ -65,12 +69,15 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
     
     //creates a new review for the use and saves it to UserDefaults
     @IBAction func submitTapped(_ sender: UIButton){
-        guard let text = reviewTextField.text, !text.isEmpty else {
+        guard let text = reviewTextField.text, !text.isEmpty,
+              let id = self.movieID, // Ensure we have an ID
+              let title = self.movieTitle // Ensure we have a title
+        else {
             return
         }
         
         let rating = ratingSegment.selectedSegmentIndex + 1
-        let review = Review(username: currentUsername, rating: rating, comment: text)
+        let review = Review(username: currentUsername, rating: rating, comment: text, movieID: id, movieTitle: title)
         reviews.append(review)
         saveReviews()
         
@@ -96,8 +103,9 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt idxPath: IndexPath) -> UITableViewCell {
         let review = reviews[idxPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReviewCell", for: idxPath)
-        cell.textLabel?.text = "\(review.username) - \(review.rating)*"
-        cell.detailTextLabel?.text = review.comment
+        let stars = String(repeating: "⭐️", count: review.rating)
+        cell.textLabel?.text = review.movieTitle
+        cell.detailTextLabel?.text = "\(stars) | \(review.comment)"
         return cell
     }
 
