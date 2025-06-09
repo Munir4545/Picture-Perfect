@@ -7,7 +7,60 @@
 
 import UIKit
 
-class DetailsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class DetailsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        reviews.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ReviewCell", for: indexPath) as? ReviewCell else {
+            return UITableViewCell()
+        }
+        
+        let review = reviews[indexPath.item]
+        
+        cell.reviewContent.text = review["content"] as? String ?? "No content available."
+        
+        cell.reviewImage.image = UIImage(systemName: "person.circle.fill")
+        cell.reviewImage.tintColor = .lightGray
+        
+        if let authorDetails = review["author_details"] as? [String: Any] {
+            if let avatarPath = authorDetails["avatar_path"] as? String, !avatarPath.isEmpty {
+                cell.reviewUserName.text = review["author"] as? String ?? "Unknown username"
+                var imageURLString: String?
+                if avatarPath.lowercased().hasPrefix("/https://") {
+                    imageURLString = String(avatarPath.dropFirst())
+                    
+                } else if avatarPath.starts(with: "/") {
+                    imageURLString = "https://image.tmdb.org/t/p/w92\(avatarPath)"
+                }
+                
+                
+                if let urlStr = imageURLString, let fullAvatarURL = URL(string: urlStr) {
+                    print("Loading avatar from: \(fullAvatarURL.absoluteString)")
+                    
+                    URLSession.shared.dataTask(with: fullAvatarURL) { data, response, error in
+                        if let error = error {
+                            print("Avatar image load error for \(fullAvatarURL): \(error.localizedDescription)")
+                            return
+                        }
+                        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                            return
+                        }
+                        if let data = data, let image = UIImage(data: data) {
+                            DispatchQueue.main.async {
+                                if let currentCell = tableView.cellForRow(at: indexPath) as? ReviewCell {
+                                    currentCell.reviewImage.image = image
+                                }
+                            }
+                        }
+                    }.resume()
+                }
+            }
+        }
+        return cell
+    }
+    
     
     
     
@@ -44,7 +97,7 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
     @IBOutlet weak var genreStackView: UIStackView!
     
     
-    @IBOutlet weak var reviewCollection: UICollectionView!
+    @IBOutlet weak var reviewCollection: UITableView!
     @IBOutlet weak var favoriteButton: UIButton!
     
     var reviews : [[String: Any]] = []
@@ -60,58 +113,7 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
         updateFavoriteButton()
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        reviews.count
-    }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ReviewCell", for: indexPath) as? ReviewCell else {
-            return UICollectionViewCell()
-        }
-        
-        let review = reviews[indexPath.item]
-        
-        cell.reviewContent.text = review["content"] as? String ?? "No content available."
-        
-        cell.reviewImage.image = UIImage(systemName: "person.circle.fill")
-        cell.reviewImage.tintColor = .lightGray
-        
-        if let authorDetails = review["author_details"] as? [String: Any] {
-            if let avatarPath = authorDetails["avatar_path"] as? String, !avatarPath.isEmpty {
-                cell.reviewUserName.text = review["author"] as? String ?? "Unknown username"
-                var imageURLString: String?
-                if avatarPath.lowercased().hasPrefix("/https://") {
-                    imageURLString = String(avatarPath.dropFirst())
-                    
-                } else if avatarPath.starts(with: "/") {
-                    imageURLString = "https://image.tmdb.org/t/p/w92\(avatarPath)"
-                }
-                
-                
-                if let urlStr = imageURLString, let fullAvatarURL = URL(string: urlStr) {
-                    print("Loading avatar from: \(fullAvatarURL.absoluteString)")
-                    
-                    URLSession.shared.dataTask(with: fullAvatarURL) { data, response, error in
-                        if let error = error {
-                            print("Avatar image load error for \(fullAvatarURL): \(error.localizedDescription)")
-                            return
-                        }
-                        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                            return
-                        }
-                        if let data = data, let image = UIImage(data: data) {
-                            DispatchQueue.main.async {
-                                if let currentCell = collectionView.cellForItem(at: indexPath) as? ReviewCell {
-                                    currentCell.reviewImage.image = image
-                                }
-                            }
-                        }
-                    }.resume()
-                }
-            }
-        }
-        return cell
-    }
     @IBAction func backTapped(_ sender: Any) {
         self.dismiss(animated: true)
     }
