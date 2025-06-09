@@ -14,6 +14,7 @@ struct Review: Codable {
     
     let movieID: Int
     let movieTitle: String
+    let mediaType: String
 }
 
 class ReviewViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -24,6 +25,7 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var submitButton: UIButton!
     
     var movieTitle: String?
+    var mediaType: String?
     var movieID: Int?
     var currentUsername: String = "Guest"
     var reviews: [Review] = []
@@ -70,14 +72,15 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
     //creates a new review for the use and saves it to UserDefaults
     @IBAction func submitTapped(_ sender: UIButton){
         guard let text = reviewTextField.text, !text.isEmpty,
-              let id = self.movieID, // Ensure we have an ID
-              let title = self.movieTitle // Ensure we have a title
+              let id = self.movieID,
+              let title = self.movieTitle,
+              let type = self.mediaType
         else {
             return
         }
         
         let rating = ratingSegment.selectedSegmentIndex + 1
-        let review = Review(username: currentUsername, rating: rating, comment: text, movieID: id, movieTitle: title)
+        let review = Review(username: currentUsername, rating: rating, comment: text, movieID: id, movieTitle: title, mediaType: type)
         reviews.append(review)
         saveReviews()
         

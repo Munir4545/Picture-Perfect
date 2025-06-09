@@ -65,6 +65,18 @@ class UserReviewViewController: UIViewController, UITableViewDataSource, UITable
         return cell
     }
     
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetailsFromReviews" {
+            
+            if let detailsVC = segue.destination as? DetailsViewController {
+                if let cell = sender as? UITableViewCell,
+                   let indexPath = tableView.indexPath(for: cell) {
+                    let selectedReview = userReviews[indexPath.row]
+                    detailsVC.movieID = selectedReview.movieID
+                    detailsVC.mediaType = selectedReview.mediaType
+                }
+            }
+        }
+    }
 
 }
