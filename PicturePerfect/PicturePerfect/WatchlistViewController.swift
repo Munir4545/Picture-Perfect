@@ -7,17 +7,21 @@
 
 import UIKit
 
-class WatchlistViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class WatchlistViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var watchlistCollection: UICollectionView!
+    @IBOutlet weak var searchField: UITextField!
     
     private var savedMovies: [[String: Any]] = []
     private var savedTVShows: [[String: Any]] = []
     private var showingTV: Bool = false
+    private var filteredMovies: [[String: Any]] = []
+    private var filteredTVShows: [[String: Any]] = []
+    private var searching = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        searchField.delegate = self
         watchlistCollection.dataSource = self
         watchlistCollection.delegate   = self
     }
@@ -36,9 +40,34 @@ class WatchlistViewController: UIViewController, UICollectionViewDataSource, UIC
         watchlistCollection.reloadData()
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        guard let query = textField.text?.lowercased(), !query.isEmpty else {
+            searching = false
+            watchlistCollection.reloadData()
+            return true
+        }
+
+        searching = true
+        if showingTV {
+            filteredTVShows = savedTVShows.filter {
+                ($0["name"] as? String)?.lowercased().contains(query) == true
+            }
+        } else {
+            filteredMovies = savedMovies.filter {
+                ($0["title"] as? String)?.lowercased().contains(query) == true
+            }
+        }
+        watchlistCollection.reloadData()
+        return true
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return showingTV ? savedTVShows.count : savedMovies.count
+        if searching {
+            return showingTV ? filteredTVShows.count : filteredMovies.count
+        } else {
+            return showingTV ? savedTVShows.count : savedMovies.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -84,7 +113,9 @@ class WatchlistViewController: UIViewController, UICollectionViewDataSource, UIC
             return UICollectionViewCell()
         }
         
-        let movie = showingTV ? savedTVShows[indexPath.item] : savedMovies[indexPath.item]
+        let movie = searching
+            ? (showingTV ? filteredTVShows[indexPath.item] : filteredMovies[indexPath.item])
+            : (showingTV ? savedTVShows[indexPath.item] : savedMovies[indexPath.item])
         
         cell.titleLabel.text = (movie["title"] as? String) ?? (movie["name"] as? String) ?? "Untitled"
         
@@ -120,6 +151,9 @@ class WatchlistViewController: UIViewController, UICollectionViewDataSource, UIC
     
     @IBAction func typeSegmentChanged(_ sender: UISegmentedControl) {
         showingTV = (sender.selectedSegmentIndex == 1)
+        searching = false
+        searchField.text = ""
+        searchField.resignFirstResponder()
         watchlistCollection.reloadData()
     }
 }

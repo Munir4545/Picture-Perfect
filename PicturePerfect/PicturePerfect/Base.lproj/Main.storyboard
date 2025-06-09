@@ -194,7 +194,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="w6u-N1-pt3">
-                                                <rect key="frame" x="137" y="472.66666666666669" width="118" height="20.333333333333314"/>
+                                                <rect key="frame" x="137" y="472.66666666666663" width="118" height="20.333333333333314"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Lc3-I8-ffV">
                                                         <rect key="frame" x="0.0" y="-0.33333333333333215" width="22" height="19.999999999999996"/>
@@ -652,6 +652,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Watchlist" image="list.bullet" catalog="system" selectedImage="list.bullet" id="pQe-zL-WaM"/>
                     <connections>
+                        <outlet property="searchField" destination="dxG-AV-HCx" id="eIH-0k-FZj"/>
                         <outlet property="watchlistCollection" destination="EQD-0n-dKm" id="3gi-GG-Br7"/>
                     </connections>
                 </viewController>
@@ -1063,7 +1064,7 @@
         <image name="person" catalog="system" width="128" height="121"/>
         <image name="star" catalog="system" width="128" height="116"/>
         <systemColor name="quaternaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.17647058823529413" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.1764705882" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
