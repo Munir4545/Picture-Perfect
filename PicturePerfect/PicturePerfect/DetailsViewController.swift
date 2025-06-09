@@ -188,6 +188,16 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
           }
     }
 
+    @IBAction func showReviewsTapped(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let reviewsVC = storyboard.instantiateViewController(withIdentifier: "ReviewViewController") as? ReviewViewController else {
+            return
+        }
+        
+        reviewsVC.movieID = self.movieID
+        self.present(reviewsVC, animated: true, completion: nil)
+    }
+
     func fetchDetails() {
         guard let id = self.movieID else {
             print("Error: Movie ID is missing.")
