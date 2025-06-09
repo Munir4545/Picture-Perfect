@@ -958,6 +958,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Yec-Y3-Wb5"/>
                     <connections>
+                        <outlet property="movieImageView" destination="zRU-tL-0ad" id="jel-ZE-gZI"/>
                         <outlet property="ratingSegment" destination="qw9-Vb-iRw" id="f6Y-6b-Nnk"/>
                         <outlet property="reviewTextField" destination="vOu-Or-jdL" id="rp4-rt-9mb"/>
                         <outlet property="submitButton" destination="DDu-NI-eKl" id="5iu-Do-2zn"/>
@@ -1045,7 +1046,7 @@
         <image name="person" catalog="system" width="128" height="121"/>
         <image name="star" catalog="system" width="128" height="116"/>
         <systemColor name="quaternaryLabelColor">
-            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.1764705882" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.17647058823529413" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
