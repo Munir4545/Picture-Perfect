@@ -244,7 +244,8 @@ class DetailsViewController: UIViewController, UICollectionViewDataSource, UICol
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let reviewsVC = storyboard.instantiateViewController(withIdentifier: "ReviewViewController") as? ReviewViewController {
             reviewsVC.movieID = self.movieID
-            reviewsVC.movieImage = self.movieImage?.image            reviewsVC.mediaType = self.mediaType
+            reviewsVC.movieImage = self.movieImage?.image
+            reviewsVC.mediaType = self.mediaType
             reviewsVC.movieTitle = self.movieDetails["title"] as? String
             reviewsVC.modalPresentationStyle = .fullScreen
             self.present(reviewsVC, animated: true)
