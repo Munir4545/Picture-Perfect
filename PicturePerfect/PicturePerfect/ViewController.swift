@@ -152,15 +152,25 @@
             return true
         }
         
-        func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-            let isTabSelected = (viewController == self || viewController == self.navigationController)
-            if isTabSelected && searching {
-                searching = false
-                searchField.text = ""
-                searchField.resignFirstResponder()
-                MovieCollection.reloadData()
-                MovieCollection.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+        func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+            guard let currentlySelectedVC = tabBarController.selectedViewController else {
+                return true
             }
+            
+            if currentlySelectedVC == viewController {
+                if searching {
+                    searching = false
+                    searchField.text = ""
+                    searchField.resignFirstResponder()
+                    
+                    MovieCollection.reloadData()
+                    let currentPopularCount = (switchType.selectedSegmentIndex == 0) ? popularMovies.count : popularTVShows.count
+                    if currentPopularCount > 0 {
+                        MovieCollection.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+                    }
+                }
+            }
+            return true
         }
         
         func fetchSearchMovies(search : String) {
@@ -294,6 +304,6 @@
             } else {
                 MovieCollection.reloadData()
             }
-            MovieCollection.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+            //MovieCollection.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
         }
     }
