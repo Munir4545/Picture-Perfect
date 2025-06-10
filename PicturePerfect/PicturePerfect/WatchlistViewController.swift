@@ -24,6 +24,8 @@ class WatchlistViewController: UIViewController, UICollectionViewDataSource, UIC
         searchField.delegate = self
         watchlistCollection.dataSource = self
         watchlistCollection.delegate   = self
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        watchlistCollection.addGestureRecognizer(longPressGesture)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -155,5 +157,37 @@ class WatchlistViewController: UIViewController, UICollectionViewDataSource, UIC
         searchField.text = ""
         searchField.resignFirstResponder()
         watchlistCollection.reloadData()
+    }
+    
+    @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
+        guard gesture.state == .began else { return }
+        let point = gesture.location(in: watchlistCollection)
+        
+        if let indexPath = watchlistCollection.indexPathForItem(at: point) {
+            let movie = searching
+                ? (showingTV ? filteredTVShows[indexPath.item] : filteredMovies[indexPath.item])
+                : (showingTV ? savedTVShows[indexPath.item] : savedMovies[indexPath.item])
+            
+            let title = (movie["title"] as? String) ?? (movie["name"] as? String) ?? "this item"
+            
+            let alert = UIAlertController(title: "Remove from Watchlist?",
+                                          message: "Are you sure you want to remove \(title)?",
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            alert.addAction(UIAlertAction(title: "Remove", style: .destructive) { _ in
+                self.removeFromWatchlist(id: movie["id"] as? Int)
+            })
+            present(alert, animated: true)
+        }
+    }
+    
+    func removeFromWatchlist(id: Int?) {
+        guard let id = id else { return }
+
+        var list = UserDefaults.standard.array(forKey: "watchlist") as? [[String: Any]] ?? []
+        list.removeAll { ($0["id"] as? Int) == id }
+
+        UserDefaults.standard.set(list, forKey: "watchlist")
+        loadWatchlist()
     }
 }
